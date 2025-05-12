@@ -8,7 +8,7 @@ type Node[T comparable] struct {
 	Next *Node[T]
 }
 
-// SinglyLinkedList stored data in linear unidirectional 
+// SinglyLinkedList stored data in linear unidirectional
 // chains.
 type SinglyLinkedList[T comparable] struct {
 	Head *Node[T]
@@ -22,7 +22,7 @@ func (sll *SinglyLinkedList[T]) Display() {
 		fmt.Println("List is empty")
 		return
 	}
-	
+
 	curr := sll.Head
 	fmt.Print("Start -> ")
 	for curr != nil {
@@ -42,7 +42,7 @@ func (sll *SinglyLinkedList[T]) Search(value T) *Node[T] {
 		}
 		curr = curr.Next
 	}
-	
+
 	return nil
 }
 
@@ -53,4 +53,36 @@ func (sll *SinglyLinkedList[T]) Prepend(value T) {
 	sll.count++
 }
 
+// Append attaches a new node with 'value' to the end of the list.
+// If frequent appends are major use case, you can maintain an additional
+// node, say Tail, pointing to the last node in the list.
+func (sll *SinglyLinkedList[T]) Append(value T) {
+	node := &Node[T]{Data: value}
+	if sll.Head == nil {
+		sll.Head = node
+	} else {
+		curr := sll.Head
+		for curr.Next != nil {
+			curr = curr.Next
+		}
+		curr.Next = node
+	}
+	sll.count++
+}
 
+// InsertAfter adds a new node after the node with specified
+// 'targetValue'.
+func (sll *SinglyLinkedList[T]) InsertAfter(targetValue T, newNodeData T) bool {
+	curr := sll.Head
+	for curr != nil {
+		if curr.Data == targetValue {
+			node := &Node[T]{Data: newNodeData, Next: curr.Next}
+			curr.Next = node
+			sll.count++
+			return true
+		}
+		curr = curr.Next
+	}
+	
+	return false
+}

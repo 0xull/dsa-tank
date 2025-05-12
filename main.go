@@ -18,5 +18,7 @@ func main() {
 	sll.Display()
 	fmt.Println(sll.Search(Process{2}))
 	sll.Prepend(Process{0})
+	sll.Append(Process{3})
+	sll.InsertAfter(Process{2}, Process{4})
 	sll.Display()
 }
