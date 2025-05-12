@@ -19,6 +19,7 @@ func main() {
 	fmt.Println(sll.Search(Process{2}))
 	sll.Prepend(Process{0})
 	sll.Append(Process{3})
-	sll.InsertAfter(Process{2}, Process{4})
+	sll.InsertAfter(Process{0}, Process{4})
+	sll.InsertBefore(Process{1}, Process{10})
 	sll.Display()
 }

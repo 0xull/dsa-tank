@@ -70,7 +70,7 @@ func (sll *SinglyLinkedList[T]) Append(value T) {
 	sll.count++
 }
 
-// InsertAfter adds a new node after the node with specified
+// InsertAfter adds a new node with 'newNodeData' after the node with specified
 // 'targetValue'.
 func (sll *SinglyLinkedList[T]) InsertAfter(targetValue T, newNodeData T) bool {
 	curr := sll.Head
@@ -83,6 +83,37 @@ func (sll *SinglyLinkedList[T]) InsertAfter(targetValue T, newNodeData T) bool {
 		}
 		curr = curr.Next
 	}
-	
+
+	return false
+}
+
+// InsertBefore adds a node with 'newNodeData' before the node with 'targetValue'
+func (sll *SinglyLinkedList[T]) InsertBefore(targetValue T, newNodeData T) bool {
+	if sll.Head == nil {
+		fmt.Println("List is empty")
+		return false
+	}
+
+	node := &Node[T]{Data: newNodeData}
+	if sll.Head.Data == targetValue {
+		node.Next = sll.Head
+		sll.Head = node
+		sll.count++
+		return false
+	}
+
+	curr := sll.Head
+	prev := curr
+	for curr != nil {
+		if curr.Data == targetValue {
+			node.Next = prev.Next
+			prev.Next = node
+			sll.count++
+			return true
+		}
+		prev = curr
+		curr = curr.Next
+	}
+
 	return false
 }
