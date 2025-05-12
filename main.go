@@ -1,15 +1,21 @@
 package main
 
-import linkedlist "github.com/IkehAkinyemi/dsa-tank/ds/list/linkedlist/singly-linkedlist"
+import (
+	linkedlist "github.com/IkehAkinyemi/dsa-tank/ds/list/linkedlist/singly-linkedlist"
+)
 
 type Process struct {
 	PID int
 }
 
 func main() {
-	sll := linkedlist.SinglyLinkedList[*Process]{
-		Head: &linkedlist.Node[*Process]{Data: &Process{1}, Next: &linkedlist.Node[*Process]{Data: &Process{2}, Next: nil}},
-	}
+	// sll := &linkedlist.SinglyLinkedList[Process]{
+	// 	Head: &linkedlist.Node[Process]{Data: Process{1}, Next: &linkedlist.Node[Process]{Data: Process{2}, Next: nil}},
+	// }
 
+	// sll.Display()
+	// fmt.Println(sll.Search(Process{2}))
+	sll := &linkedlist.SinglyLinkedList[Process]{}
+	sll.Prepend(Process{0})
 	sll.Display()
 }

@@ -2,12 +2,15 @@ package linkedlist
 
 import "fmt"
 
-type Node[T any] struct {
+// Node represent each node in a linked list.
+type Node[T comparable] struct {
 	Data T
 	Next *Node[T]
 }
 
-type SinglyLinkedList[T any] struct {
+// SinglyLinkedList stored data in linear unidirectional 
+// chains.
+type SinglyLinkedList[T comparable] struct {
 	Head *Node[T]
 
 	count uint
@@ -15,12 +18,12 @@ type SinglyLinkedList[T any] struct {
 
 // Display iterates and prints the Data content of each node.
 func (sll *SinglyLinkedList[T]) Display() {
-	curr := sll.Head
-	if curr == nil {
+	if sll.Head == nil {
 		fmt.Println("List is empty")
 		return
 	}
 	
+	curr := sll.Head
 	fmt.Print("Start -> ")
 	for curr != nil {
 		fmt.Printf("%+v -> ", curr.Data)
@@ -29,4 +32,26 @@ func (sll *SinglyLinkedList[T]) Display() {
 	fmt.Println("nil")
 }
 
-// 
+// Search iterates and compares the data at each node for a match
+// against 'value', returning the address.
+func (sll *SinglyLinkedList[T]) Search(value T) *Node[T] {
+	curr := sll.Head
+	for curr != nil {
+		if curr.Data == value {
+			return curr
+		}
+		curr = curr.Next
+	}
+	
+	return nil
+}
+
+// Prepend attaches a new node with 'value' to the beginning
+// of the list.
+func (sll *SinglyLinkedList[T]) Prepend(value T) {
+	node := &Node[T]{Data: value, Next: sll.Head}
+	sll.Head = node
+	sll.count++
+}
+
+
