@@ -49,8 +49,7 @@ func (sll *SinglyLinkedList[T]) Search(value T) *Node[T] {
 // Prepend attaches a new node with 'value' to the beginning
 // of the list.
 func (sll *SinglyLinkedList[T]) Prepend(value T) {
-	node := &Node[T]{Data: value, Next: sll.Head}
-	sll.Head = node
+	sll.Head = &Node[T]{Data: value, Next: sll.Head}
 	sll.count++
 }
 

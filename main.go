@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	linkedlist "github.com/IkehAkinyemi/dsa-tank/ds/list/linkedlist/singly-linkedlist"
 )
 
@@ -9,13 +11,12 @@ type Process struct {
 }
 
 func main() {
-	// sll := &linkedlist.SinglyLinkedList[Process]{
-	// 	Head: &linkedlist.Node[Process]{Data: Process{1}, Next: &linkedlist.Node[Process]{Data: Process{2}, Next: nil}},
-	// }
+	sll := &linkedlist.SinglyLinkedList[Process]{
+		Head: &linkedlist.Node[Process]{Data: Process{1}, Next: &linkedlist.Node[Process]{Data: Process{2}, Next: nil}},
+	}
 
-	// sll.Display()
-	// fmt.Println(sll.Search(Process{2}))
-	sll := &linkedlist.SinglyLinkedList[Process]{}
+	sll.Display()
+	fmt.Println(sll.Search(Process{2}))
 	sll.Prepend(Process{0})
 	sll.Display()
 }
