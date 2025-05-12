@@ -10,7 +10,7 @@ type Node[T any] struct {
 type SinglyLinkedList[T any] struct {
 	Head *Node[T]
 
-	size uint
+	count uint
 }
 
 // Display iterates and prints the Data content of each node.
