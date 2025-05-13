@@ -13,7 +13,7 @@ type Node[T comparable] struct {
 type SinglyLinkedList[T comparable] struct {
 	Head *Node[T]
 
-	count uint
+	Count uint
 }
 
 // Display iterates and prints the Data content of each node.
@@ -50,7 +50,7 @@ func (sll *SinglyLinkedList[T]) Search(value T) *Node[T] {
 // of the list.
 func (sll *SinglyLinkedList[T]) Prepend(value T) {
 	sll.Head = &Node[T]{Data: value, Next: sll.Head}
-	sll.count++
+	sll.Count++
 }
 
 // Append attaches a new node with 'value' to the end of the list.
@@ -68,7 +68,7 @@ func (sll *SinglyLinkedList[T]) Append(value T) {
 			}
 		}
 	}
-	sll.count++
+	sll.Count++
 }
 
 // InsertAfter adds a new node with 'newNodeData' after the node with specified
@@ -78,7 +78,7 @@ func (sll *SinglyLinkedList[T]) InsertAfter(targetValue T, newNodeData T) bool {
 		if curr.Data == targetValue {
 			node := &Node[T]{Data: newNodeData, Next: curr.Next}
 			curr.Next = node
-			sll.count++
+			sll.Count++
 			return true
 		}
 	}
@@ -95,7 +95,7 @@ func (sll *SinglyLinkedList[T]) InsertBefore(targetValue T, newNodeData T) bool 
 	node := &Node[T]{Data: newNodeData, Next: sll.Head}
 	if sll.Head.Data == targetValue {
 		sll.Head = node
-		sll.count++
+		sll.Count++
 		return true
 	}
 
@@ -103,7 +103,7 @@ func (sll *SinglyLinkedList[T]) InsertBefore(targetValue T, newNodeData T) bool 
 		if curr.Data == targetValue {
 			node.Next = prev.Next
 			prev.Next = node
-			sll.count++
+			sll.Count++
 			return true
 		}
 	}
@@ -119,7 +119,7 @@ func (sll *SinglyLinkedList[T]) DeleteHead() *Node[T] {
 	
 	node := sll.Head
 	sll.Head = sll.Head.Next
-	sll.count--
+	sll.Count--
 	return node
 }
 
@@ -132,14 +132,14 @@ func (sll *SinglyLinkedList[T]) DeleteTail() *Node[T] {
 	if sll.Head.Next == nil {
 		node := sll.Head
 		sll.Head = nil
-		sll.count--
+		sll.Count--
 		return node
 	}
 	
 	for prev, curr := sll.Head, sll.Head.Next;; prev, curr = curr, curr.Next {
 		if curr.Next == nil {
 			prev.Next = nil
-			sll.count--
+			sll.Count--
 			return curr
 		}
 	}
@@ -154,14 +154,14 @@ func (sll *SinglyLinkedList[T]) Delete(targetValue T) *Node[T] {
 	if sll.Head.Data == targetValue {
 		node := sll.Head
 		sll.Head = sll.Head.Next
-		sll.count--
+		sll.Count--
 		return node
 	}
 	
 	for prev, curr := sll.Head, sll.Head.Next; curr != nil; prev, curr = curr, curr.Next {
 		if curr.Data == targetValue {
 			prev.Next = curr.Next
-			sll.count--
+			sll.Count--
 			return curr
 		}
 	}
