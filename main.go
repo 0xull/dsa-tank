@@ -21,5 +21,8 @@ func main() {
 	sll.Append(Process{3})
 	sll.InsertAfter(Process{0}, Process{4})
 	sll.InsertBefore(Process{3}, Process{10})
+	fmt.Printf("%v\n", sll.DeleteHead())
+	fmt.Printf("%v\n", sll.DeleteTail())
+	fmt.Printf("%v\n", sll.Delete(Process{2}))
 	sll.Display()
 }

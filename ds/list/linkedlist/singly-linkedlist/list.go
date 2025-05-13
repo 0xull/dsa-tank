@@ -61,11 +61,12 @@ func (sll *SinglyLinkedList[T]) Append(value T) {
 	if sll.Head == nil {
 		sll.Head = node
 	} else {
-		curr := sll.Head
-		for curr.Next != nil {
-			curr = curr.Next
+		for curr := sll.Head;; curr = curr.Next {
+			if curr.Next == nil {
+				curr.Next = node
+				break
+			}
 		}
-		curr.Next = node
 	}
 	sll.count++
 }
@@ -73,15 +74,13 @@ func (sll *SinglyLinkedList[T]) Append(value T) {
 // InsertAfter adds a new node with 'newNodeData' after the node with specified
 // 'targetValue'.
 func (sll *SinglyLinkedList[T]) InsertAfter(targetValue T, newNodeData T) bool {
-	curr := sll.Head
-	for curr != nil {
+	for curr := sll.Head; curr != nil; curr = curr.Next {
 		if curr.Data == targetValue {
 			node := &Node[T]{Data: newNodeData, Next: curr.Next}
 			curr.Next = node
 			sll.count++
 			return true
 		}
-		curr = curr.Next
 	}
 
 	return false
@@ -100,7 +99,7 @@ func (sll *SinglyLinkedList[T]) InsertBefore(targetValue T, newNodeData T) bool 
 		return true
 	}
 
-	for curr, prev := sll.Head, sll.Head; curr != nil; prev, curr = curr, curr.Next {
+	for prev, curr := sll.Head, sll.Head.Next; curr != nil; prev, curr = curr, curr.Next {
 		if curr.Data == targetValue {
 			node.Next = prev.Next
 			prev.Next = node
@@ -110,4 +109,62 @@ func (sll *SinglyLinkedList[T]) InsertBefore(targetValue T, newNodeData T) bool 
 	}
 
 	return false
+}
+
+// DeleteHead removes and returns the current head's node
+func (sll *SinglyLinkedList[T]) DeleteHead() *Node[T] {
+	if sll.Head == nil {
+		return nil
+	}
+	
+	node := sll.Head
+	sll.Head = sll.Head.Next
+	sll.count--
+	return node
+}
+
+// DeleteTail removes and returns the current tail's node
+func (sll *SinglyLinkedList[T]) DeleteTail() *Node[T] {
+	if sll.Head == nil {
+		return nil
+	}
+	
+	if sll.Head.Next == nil {
+		node := sll.Head
+		sll.Head = nil
+		sll.count--
+		return node
+	}
+	
+	for prev, curr := sll.Head, sll.Head.Next;; prev, curr = curr, curr.Next {
+		if curr.Next == nil {
+			prev.Next = nil
+			sll.count--
+			return curr
+		}
+	}
+}
+
+// Delete removes and returns a node with 'targetValue'
+func (sll *SinglyLinkedList[T]) Delete(targetValue T) *Node[T] {
+	if sll.Head == nil {
+		return nil
+	}
+	
+	if sll.Head.Data == targetValue {
+		node := sll.Head
+		sll.Head = sll.Head.Next
+		sll.count--
+		return node
+	}
+	
+	for prev, curr := sll.Head, sll.Head.Next; curr != nil; prev, curr = curr, curr.Next {
+		if curr.Data == targetValue {
+			prev.Next = curr.Next
+			sll.count--
+			return curr
+		}
+	}
+	
+	return nil
 }
