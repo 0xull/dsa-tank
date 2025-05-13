@@ -90,29 +90,23 @@ func (sll *SinglyLinkedList[T]) InsertAfter(targetValue T, newNodeData T) bool {
 // InsertBefore adds a node with 'newNodeData' before the node with 'targetValue'
 func (sll *SinglyLinkedList[T]) InsertBefore(targetValue T, newNodeData T) bool {
 	if sll.Head == nil {
-		fmt.Println("List is empty")
 		return false
 	}
 
-	node := &Node[T]{Data: newNodeData}
+	node := &Node[T]{Data: newNodeData, Next: sll.Head}
 	if sll.Head.Data == targetValue {
-		node.Next = sll.Head
 		sll.Head = node
 		sll.count++
-		return false
+		return true
 	}
 
-	curr := sll.Head
-	prev := curr
-	for curr != nil {
+	for curr, prev := sll.Head, sll.Head; curr != nil; prev, curr = curr, curr.Next {
 		if curr.Data == targetValue {
 			node.Next = prev.Next
 			prev.Next = node
 			sll.count++
 			return true
 		}
-		prev = curr
-		curr = curr.Next
 	}
 
 	return false
