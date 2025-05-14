@@ -2,12 +2,6 @@ package linkedlist
 
 import "fmt"
 
-// Node represent each node in a linked list.
-type Node[T comparable] struct {
-	Data T
-	Next *Node[T]
-}
-
 // SinglyLinkedList stored data in linear unidirectional
 // chains.
 type SinglyLinkedList[T comparable] struct {

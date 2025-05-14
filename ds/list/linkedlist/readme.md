@@ -1,4 +1,8 @@
-# 6.3 Circular Linked Lists
+# Linked Lists ADT
+
+## 6.2 Singly Linked Lists
+
+## 6.3 Circular Linked Lists
 
 A **circular linked list** is a type of linked list in which the last node does not point to `nil`. Instead, the `Next` pointer of the last node points back to the **first node** (the `Head`) of the list, forming a circle or a loop.
 

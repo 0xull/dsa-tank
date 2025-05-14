@@ -2,12 +2,6 @@ package linkedlist
 
 import "fmt"
 
-// Node represent each node within a linked list
-type Node[T comparable] struct {
-	Data T
-	Next *Node[T]
-}
-
 // CircularLinkedList is type of linked list, where the last node points to the first
 // node forming a circular or looped linkage.
 type CircularLinkedList[T comparable] struct {

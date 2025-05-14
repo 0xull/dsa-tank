@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	linkedlist "github.com/IkehAkinyemi/dsa-tank/ds/list/linkedlist/singly-linkedlist"
+	linkedlist "github.com/IkehAkinyemi/dsa-tank/ds/list/linkedlist"
 )
 
 type Process struct {
