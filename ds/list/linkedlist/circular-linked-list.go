@@ -67,6 +67,8 @@ func (cll *CircularLinkedList[T]) Append(value T) {
 	cll.Size++
 }
 
+// DeleteHead removes and return the current 'Head' node from
+// the list.
 func (cll *CircularLinkedList[T]) DeleteHead() *Node[T] {
 	if cll.Head == nil {
 		return nil
@@ -89,6 +91,59 @@ func (cll *CircularLinkedList[T]) DeleteHead() *Node[T] {
 	}
 }
 
+// DeleteLast removes and returns the last node in list
 func (cll *CircularLinkedList[T]) DeleteLast() *Node[T] {
+	if cll.Head == nil {
+		return nil
+	}
 	
+	var node *Node[T]
+	if cll.Head == cll.Head.Next {
+		node = cll.Head
+		cll.Head = nil
+	} else {
+		for prev, curr := cll.Head, cll.Head.Next;; prev, curr = curr, curr.Next {
+			if curr.Next == cll.Head {
+				node = curr
+				prev.Next = cll.Head
+				break
+			}
+		}
+	}
+	cll.Size--
+	return node
+}
+
+// Delete removes and returns a node that its data matches the 'targetValue'
+func (cll *CircularLinkedList[T]) Delete(targetValue T) *Node[T] {
+	if cll.Head != nil {
+		var node *Node[T]
+		if cll.Head.Data == targetValue {
+			node = cll.Head
+			if cll.Head == cll.Head.Next {
+				cll.Head = nil
+				cll.Size--
+				return node
+			}
+			
+			for curr := cll.Head.Next;; curr = curr.Next {
+				if curr.Next == cll.Head {
+					curr.Next = cll.Head.Next
+					cll.Head = cll.Head.Next
+					cll.Size--
+					return node
+				}
+			}
+		}
+		
+		for prev, curr := cll.Head, cll.Head.Next; curr != cll.Head; prev, curr = curr, curr.Next {
+			if curr.Data == targetValue {
+				node = curr
+				prev.Next = curr.Next
+				cll.Size--
+				return node
+			}
+		}
+	}
+	return nil
 }

@@ -26,9 +26,12 @@ func main() {
 	fmt.Printf("%v\n", sll.Delete(Process{2}))
 	sll.Display()
 	
-	cll := &linkedlist.CircularLinkedList[Process]{
-		Head: &linkedlist.Node[Process]{Data: Process{1}, Next: &linkedlist.Node[Process]{Data: Process{2}, Next: nil}},
-	}
+	cll := &linkedlist.CircularLinkedList[Process]{}
+	cll.Prepend(Process{0})
+	cll.Append(Process{1})
+	cll.Prepend(Process{-1})
+	cll.Append(Process{2})
 	
 	cll.Display()
+	fmt.Println(cll.Delete(Process{2}))
 }
