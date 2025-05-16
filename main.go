@@ -34,4 +34,9 @@ func main() {
 	
 	cll.Display()
 	fmt.Println(cll.Delete(Process{2}))
+	
+	dll := &linkedlist.DoublyLinkedList[Process]{}
+	
+	dll.Prepend(Process{0})
+	dll.Display()
 }
