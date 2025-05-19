@@ -97,3 +97,76 @@ func (dll *DoublyLinkedList[T]) InsertBefore(targetValue T, newValue T) bool {
 	
 	return false
 }
+
+// DeleteHead removes and returns the 'Head' node from the list
+func (dll *DoublyLinkedList[T]) DeleteHead() *Node[T] {
+	if dll.Head == nil {
+		return nil
+	} else {
+		node := dll.Head
+		dll.Head = dll.Head.Next
+		if dll.Head != nil {
+			dll.Head.Prev = nil
+			node.Next = nil
+		}
+		dll.Size--
+		return node
+	}
+}
+
+// DeleteTail removes and returns the 'Tail' of the list.
+func (dll *DoublyLinkedList[T]) DeleteTail() *Node[T] {
+	if dll.Head == nil {
+		return nil
+	} 
+
+	var node *Node[T]
+	
+	if dll.Head.Next == nil {
+		node = dll.Head
+		dll.Head = dll.Head.Next
+	} else {
+		prev, curr := dll.Head, dll.Head.Next
+		for curr.Next != nil {
+			prev = curr
+			curr = curr.Next
+		}
+		prev.Next = nil
+		curr.Prev = nil
+		node = curr
+	}
+	
+	dll.Size--
+	return node
+}
+
+// Deletes a node with 'targetValue' from the list
+func (dll *DoublyLinkedList[T]) Delete(targetValue T) *Node[T] {
+	if dll.Head != nil {
+		if dll.Head.Data == targetValue {
+			node := dll.Head
+			if dll.Head.Next == nil {
+				dll.Head = nil
+			} else {
+				dll.Head = dll.Head.Next
+				dll.Head.Prev = nil
+				node.Next = nil
+			}
+			dll.Size--
+			return node
+		} else {
+			for prev, curr := dll.Head, dll.Head.Next; curr != nil; prev, curr = curr, curr.Next {
+				if curr.Data == targetValue {
+					node := curr
+					prev.Next = curr.Next
+					if prev.Next != nil {
+						prev.Next.Prev = prev
+					}
+					dll.Size--
+					return node
+				}
+			}
+		}
+	}
+	return nil
+}
