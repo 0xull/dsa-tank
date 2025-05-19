@@ -162,6 +162,8 @@ func (dll *DoublyLinkedList[T]) Delete(targetValue T) *Node[T] {
 					if prev.Next != nil {
 						prev.Next.Prev = prev
 					}
+					node.Next = nil
+					node.Prev = nil
 					dll.Size--
 					return node
 				}
