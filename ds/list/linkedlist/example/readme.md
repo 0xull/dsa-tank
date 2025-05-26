@@ -10,7 +10,7 @@ Each part like $5x^4$, $-7x^2$, $3x$ (which is $3x^1$), and $10$ (which is $10x^
 
 Good question...actually not a good question. Meh, consider a polynomial like $$P(x) = 9x^{1000} + 2$$
 
-Naively, if I was to represent it using an array...uhmm rookie, where the index would represent the exponent, then I'd need an array with a size of 1001 (you know, the openness of the indexing, [0, 1001), accounting for the 1000th index). The rest of the slots in this array would be zero-value initialized, which is significant waste of memory. Yeah, forgive my rookie mistake.
+Naively, if I was to represent it using an array...uhmm rookie, where the index would represent the exponent, then I'd need an array with a size of 1001 (you know, the openness of the indexing, [0, 1001), accounting for the 1000th index). The rest of the slots in this array would be zero-value initialized, which is significant waste of memory. Yeah, just showing my fellow rookies around.
 
 > $P(x) = 9x^{1000} + 2$ is known as a sparse polynomial.
 
