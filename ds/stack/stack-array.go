@@ -1,4 +1,4 @@
-package stackarray
+package stack
 
 import (
 	"fmt"
