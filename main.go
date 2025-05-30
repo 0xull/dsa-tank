@@ -49,4 +49,30 @@ func main() {
 	origStr := []rune{'s', 't', 'r', 'i', 'n', 'g', 's'}
 	reversed1 := stack.ReverseArray(origStr)
 	fmt.Println(string(reversed1))
+	
+	fmt.Println("--- Parentheses Checker ---")
+
+	expressions := []string{
+		"{([])}",          // Balanced
+		"([{}])()",        // Balanced
+		"((()))",          // Balanced
+		"var x = func({a:1, b:[2,3]});", // Balanced (ignores non-parentheses)
+		"((()",            // Unbalanced (too many open)
+		"())",             // Unbalanced (closing before open)
+		"{[}]",            // Unbalanced (mismatched and wrong order)
+		"({[}])",          // Unbalanced (mismatched order)
+		"([)]",            // Unbalanced (mismatched order)
+		"",                // Balanced (empty string)
+		"abc",             // Balanced (no parentheses)
+		"[",               // Unbalanced
+		"}",               // Unbalanced
+	}
+
+	for _, expr := range expressions {
+		if stack.ValidateExpression(expr) {
+			fmt.Printf("Expression '%s' is BALANCED.\n", expr)
+		} else {
+			fmt.Printf("Expression '%s' is UNBALANCED.\n", expr)
+		}
+	}
 }
