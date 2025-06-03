@@ -75,4 +75,6 @@ func main() {
 			fmt.Printf("Expression '%s' is UNBALANCED.\n", expr)
 		}
 	}
+	expression := "( 1 + ( ( 2 + 3 ) * ( 4 * 5 ) ) )"
+	fmt.Println(stack.EvalParenthesizedInfixExpression(expression))
 }
