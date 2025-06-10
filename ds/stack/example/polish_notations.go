@@ -46,3 +46,7 @@ func (stack *StackArray[T]) Peek() T {
 	
 	return stack.items[stack.top]
 }
+
+func (stack *StackArray[T]) IsEmpty() bool {
+	return stack.top == -1
+} 
