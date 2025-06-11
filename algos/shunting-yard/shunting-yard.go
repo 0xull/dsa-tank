@@ -44,6 +44,11 @@ func ShuntingYard(expression string) (string, error) {
 			}
 		}
 	}
+	
+	for !s.IsEmpty() {
+		postfix.WriteRune(s.Pop())
+	}
+	
 	return postfix.String(), nil
 }
 
@@ -58,12 +63,4 @@ func isOperator(char rune) bool {
 func isOperand(char rune) bool {
 	matched, _ := regexp.Match("^[0-9]$", []byte(string(char)))
 	return matched
-}
-
-func associativity(substr string) string {
-	if strings.Contains(lvl2Ops, substr) {
-		return "left"
-	} else if strings.Contains(lvl3Ops,  substr) {
-		return "right"
-	}
 }

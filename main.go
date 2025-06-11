@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	shuntingyard "github.com/IkehAkinyemi/dsa-tank/algos/shunting-yard"
 	"github.com/IkehAkinyemi/dsa-tank/ds/list/linkedlist"
 	stack "github.com/IkehAkinyemi/dsa-tank/ds/stack/example"
 )
@@ -77,4 +78,6 @@ func main() {
 	}
 	expression := "( 1 + ( ( 2 + 3 ) * ( 4 * 5 ) ) )"
 	fmt.Println(stack.EvalParenthesizedInfixExpression(expression))
+	
+	fmt.Println(shuntingyard.ShuntingYard(expression))
 }
