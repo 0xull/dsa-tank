@@ -16,12 +16,16 @@ func ShuntingYard(expression string) (string, error) {
 		switch {
 		case isOperator(v):
 			op := s.Peek()
-			if !isOperator(op) {
+			if op == '(' {
 				s.Push(v)
 				continue
 			}
 			
+			fmt.Println(string(v))
 			r := comparePrecedence(string(v), string(op))
+			fmt.Println(r)
+			fmt.Println()
+
 			if r == 0 {
 				// check for associativity
 				if strings.Contains(lvl2Ops, string(op)) { // Left associativity
@@ -46,14 +50,19 @@ func ShuntingYard(expression string) (string, error) {
 			for !s.IsEmpty() && s.Peek() != '(' {
 				postfix.WriteRune(s.Pop())
 			}
-			if !s.IsEmpty() && s.Pop() != '(' {
+			if s.IsEmpty() || s.Pop() != '(' {
 				return "", fmt.Errorf("mismatched parenthese: no '(' found for its ')' at index %d", i)
 			}
 		}
 	}
 	
 	for !s.IsEmpty() {
-		postfix.WriteRune(s.Pop())
+		op := s.Pop()
+		if op != '(' {	
+			postfix.WriteRune(op)
+		} else {
+			return "", fmt.Errorf("mismatched parenthese: no ')' found for '('")
+		}
 	}
 	
 	return postfix.String(), nil

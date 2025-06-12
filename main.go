@@ -80,6 +80,7 @@ func main() {
 	fmt.Println(stack.EvalParenthesizedInfixExpression(expression))
 	
 	fmt.Println(shuntingyard.ShuntingYard(expression))
-	expression = "3 * ( 4 + 2 ) - 6 / 3"
+	// expression = "3 * ( 4 + 2 ) - 6 / 3"
+	expression = "5+((1+2)*4)-3"
 	fmt.Println(shuntingyard.ShuntingYard(expression))
 }
