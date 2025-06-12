@@ -16,6 +16,11 @@ func ShuntingYard(expression string) (string, error) {
 		switch {
 		case isOperator(v):
 			op := s.Peek()
+			if !isOperator(op) {
+				s.Push(v)
+				continue
+			}
+			
 			r := comparePrecedence(string(v), string(op))
 			if r == 0 {
 				// check for associativity
@@ -27,8 +32,10 @@ func ShuntingYard(expression string) (string, error) {
 					postfix.WriteRune(v)
 				}
 			} else if r == 1 {
-				postfix.WriteRune(v)
+				s.Push(v)
 			} else if r == -1 {
+				postfix.WriteRune(op)
+				s.Pop()
 				s.Push(v)
 			}
 		case isOperand(v):
