@@ -16,15 +16,12 @@ func ShuntingYard(expression string) (string, error) {
 		switch {
 		case isOperator(v):
 			op := s.Peek()
-			if op == '(' {
+			if op == '(' || s.IsEmpty() {
 				s.Push(v)
 				continue
 			}
 			
-			fmt.Println(string(v))
 			r := comparePrecedence(string(v), string(op))
-			fmt.Println(r)
-			fmt.Println()
 
 			if r == 0 {
 				// check for associativity

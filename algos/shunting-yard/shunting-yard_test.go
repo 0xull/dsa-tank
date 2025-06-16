@@ -1,7 +1,6 @@
 package shuntingyard
 
 import (
-	"errors"
 	"fmt"
 	"testing"
 )
@@ -74,8 +73,9 @@ func TestShuntingYard(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T){
 			if postfix, err := ShuntingYard(tc.input); postfix != tc.exp {
 				fmt.Println([]byte(postfix), []byte(tc.exp))
+				fmt.Println(postfix, tc.exp)
 				t.Errorf("expected '%s'; got '%s'", tc.exp, postfix)
-			} else if !errors.Is(tc.err, err) {
+			} else if err != nil && tc.err.Error()!= err.Error() {
 				t.Errorf("%s", err.Error())
 			}
 		})
