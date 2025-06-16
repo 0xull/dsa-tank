@@ -67,7 +67,7 @@ func ShuntingYard(expression string) (string, error) {
 
 func isOperator(char rune) bool {
 	switch char {
-	case '+', '-', '*', '/':
+	case '+', '-', '*', '/', '%':
 		return true
 	default: return false
 	}
