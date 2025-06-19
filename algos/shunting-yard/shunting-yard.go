@@ -11,7 +11,7 @@ import (
 func ShuntingYard(expression string) (string, error) {
 	s := stack.NewStackArray[rune](len(expression))
 	var postfix strings.Builder
-	
+
 	s.Push('(')
 	expression = expression + ")"
 
@@ -24,7 +24,7 @@ func ShuntingYard(expression string) (string, error) {
 				continue
 			}
 			r := comparePrecedence(string(v), string(op))
-			
+
 			if r == 0 {
 				postfix.WriteRune(s.Pop())
 				s.Push(v)
@@ -44,13 +44,13 @@ func ShuntingYard(expression string) (string, error) {
 				postfix.WriteRune(s.Pop())
 			}
 			if s.IsEmpty() || s.Pop() != '(' {
-				return "", fmt.Errorf("mismatched parenthese: no '(' found for its ')' at index %d", i)
+				return "", fmt.Errorf("mismatched parenthese: no '(' found for its ')' at index %d", i-1)
 			}
 		}
 	}
 
 	if !s.IsEmpty() {
-		return "", fmt.Errorf("invalid infix expression")
+		return "", fmt.Errorf("mismatched parenthese: no ')' found for '('")
 	}
 
 	return postfix.String(), nil
