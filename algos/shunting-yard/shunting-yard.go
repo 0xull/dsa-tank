@@ -12,6 +12,9 @@ func ShuntingYard(expression string) (string, error) {
 	s := stack.NewStackArray[rune](len(expression))
 	var postfix strings.Builder
 	
+	s.Push('(')
+	expression = expression + ")"
+
 	for i, v := range expression {
 		switch {
 		case isOperator(v):
@@ -20,18 +23,11 @@ func ShuntingYard(expression string) (string, error) {
 				s.Push(v)
 				continue
 			}
-			
 			r := comparePrecedence(string(v), string(op))
-
+			
 			if r == 0 {
-				// check for associativity
-				if strings.Contains(lvl2Ops, string(op)) { // Left associativity
-					postfix.WriteRune(op)
-					s.Pop()
-					s.Push(v)
-				} else if strings.Contains(lvl3Ops, string(op)) { // Right associativity
-					postfix.WriteRune(v)
-				}
+				postfix.WriteRune(s.Pop())
+				s.Push(v)
 			} else if r == 1 {
 				s.Push(v)
 			} else if r == -1 {
@@ -52,16 +48,11 @@ func ShuntingYard(expression string) (string, error) {
 			}
 		}
 	}
-	
-	for !s.IsEmpty() {
-		op := s.Pop()
-		if op != '(' {	
-			postfix.WriteRune(op)
-		} else {
-			return "", fmt.Errorf("mismatched parenthese: no ')' found for '('")
-		}
+
+	if !s.IsEmpty() {
+		return "", fmt.Errorf("invalid infix expression")
 	}
-	
+
 	return postfix.String(), nil
 }
 
@@ -69,7 +60,8 @@ func isOperator(char rune) bool {
 	switch char {
 	case '+', '-', '*', '/', '%':
 		return true
-	default: return false
+	default:
+		return false
 	}
 }
 

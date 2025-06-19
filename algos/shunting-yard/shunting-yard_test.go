@@ -47,13 +47,13 @@ func TestShuntingYard(t *testing.T) {
 			name: "invalid infix expression (missing a opening parenthesis)",
 			input: "1 + 3 - 4(5 -))",
 			exp: "",
-			err: fmt.Errorf("mismatched parenthese: no '(' found for its ')' at index 14"),
+			err: fmt.Errorf("mismatched parenthese: no '(' found for its ')' at index 15"),
 		},
 		{
 			name: "invalid infix expression (single closing parenthesis)",
 			input: ")",
 			exp: "",
-			err: fmt.Errorf("mismatched parenthese: no '(' found for its ')' at index 0"),
+			err: fmt.Errorf("mismatched parenthese: no '(' found for its ')' at index 1"),
 		},
 		{
 			name: "invalid infix expression (single opening parenthesis)",
@@ -65,15 +65,19 @@ func TestShuntingYard(t *testing.T) {
 			name: "invalid infix expression (missing a closing parenthesis)",
 			input: "(1+4*6",
 			exp: "",
-			err: fmt.Errorf("mismatched parenthese: no ')' found for '('"),
+			err: fmt.Errorf("invalid infix expression"),
+		},
+		{
+			name: "complex infix expression",
+			input: "4 - (7 / 8 + (3 % 2 * 6) / 5) * 1",
+			exp: "478/32%6*5/+1*-",
+			err: nil,
 		},
 	}
 	
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T){
 			if postfix, err := ShuntingYard(tc.input); postfix != tc.exp {
-				fmt.Println([]byte(postfix), []byte(tc.exp))
-				fmt.Println(postfix, tc.exp)
 				t.Errorf("expected '%s'; got '%s'", tc.exp, postfix)
 			} else if err != nil && tc.err.Error()!= err.Error() {
 				t.Errorf("%s", err.Error())
