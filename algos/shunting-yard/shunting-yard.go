@@ -13,28 +13,20 @@ func ShuntingYard(expression string) (string, error) {
 	var postfix strings.Builder
 
 	s.Push('(')
-	expression = expression + ")"
+	expression += ")"
 
 	for i, v := range expression {
 		switch {
 		case isOperator(v):
-			op := s.Peek()
-			if op == '(' || s.IsEmpty() {
-				s.Push(v)
-				continue
-			}
-			r := comparePrecedence(string(v), string(op))
-
-			if r == 0 {
+			for {
+				op := s.Peek()
+				r := comparePrecedence(string(v), string(op))
+				if op == '(' || r == 1 {
+					break
+				}
 				postfix.WriteRune(s.Pop())
-				s.Push(v)
-			} else if r == 1 {
-				s.Push(v)
-			} else if r == -1 {
-				postfix.WriteRune(op)
-				s.Pop()
-				s.Push(v)
 			}
+			s.Push(v)
 		case isOperand(v):
 			postfix.WriteRune(v)
 		case v == '(':

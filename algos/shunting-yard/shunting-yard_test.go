@@ -64,7 +64,7 @@ func TestShuntingYard(t *testing.T) {
 			name:  "invalid infix expression (missing a closing parenthesis)",
 			input: "(1+4*6",
 			exp:   "",
-			err:   fmt.Errorf("invalid infix expression"),
+			err:   fmt.Errorf("mismatched parenthese: no ')' found for '('"),
 		},
 		{
 			name:  "complex infix expression",
