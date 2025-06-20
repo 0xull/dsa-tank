@@ -50,3 +50,7 @@ func (stack *StackArray[T]) Peek() T {
 func (stack *StackArray[T]) IsEmpty() bool {
 	return stack.top == -1
 } 
+
+func (stack *StackArray[T]) Size() int {
+	return len(stack.items)
+}
