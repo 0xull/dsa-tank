@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"regexp"
 	"strings"
+	"unicode"
 
 	stack "github.com/IkehAkinyemi/dsa-tank/ds/stack/example"
 )
@@ -27,7 +28,7 @@ func ShuntingYard(expression string) (string, error) {
 				postfix.WriteRune(s.Pop())
 			}
 			s.Push(v)
-		case isOperand(v):
+		case unicode.IsLetter(v) || unicode.IsDigit(v):
 			postfix.WriteRune(v)
 		case v == '(':
 			s.Push(v)

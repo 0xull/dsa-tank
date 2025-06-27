@@ -3,6 +3,7 @@ package shuntingyard
 import (
 	"fmt"
 	"strconv"
+	"unicode"
 
 	stack "github.com/IkehAkinyemi/dsa-tank/ds/stack/example"
 )
@@ -12,7 +13,7 @@ func EvalPostfix(postfix string) (string, error) {
 	
 	for _, c := range postfix {
 		switch {
-		case isOperand(c):
+		case unicode.IsLetter(c) || unicode.IsDigit(c):
 			es.Push(string(c))
 		case isOperator(c):
 			r, err := evaluate(es.Pop(), es.Pop(), c)
