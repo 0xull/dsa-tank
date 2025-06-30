@@ -8,16 +8,16 @@ import (
 )
 
 func EvalPrefix(prefix string) (string, error) {
-	ops := stack.NewStackArray[string](len(prefix)/2)
+	ops := stack.NewStackArray[string](3)
 	r := []rune(prefix)
-	
-	for i := len(r)-1; i <= 0; i-- {
+
+	for i := len(r)-1; i >= 0; i-- {
 		switch {
 		case unicode.IsLetter(r[i]) || unicode.IsDigit(r[i]):
 			// if ops.Size() > 1 {
 			// 	ops.Push(string(r[i]) + ops.Pop())
 			// }
-			ops.Push(string(r))
+			ops.Push(string(r[i]))
 		case isOperator(r[i]):
 			op1 := ops.Pop()
 			op2 := ops.Pop()
@@ -30,9 +30,8 @@ func EvalPrefix(prefix string) (string, error) {
 		}
 	}
 	
-	if ops.Size() != 1 {
+	if ops.Size() != 0 {
 		return "", fmt.Errorf("invalid prefix expression: expected one resultant operator; got %d", ops.Size())
 	}
-	
 	return ops.Pop(), nil
 }

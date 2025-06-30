@@ -1,6 +1,9 @@
 package shuntingyard
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestEvalPrefix(t *testing.T) {
 	testCases := []struct{
@@ -11,8 +14,8 @@ func TestEvalPrefix(t *testing.T) {
 	}{
 		{
 			name: "simple prefix expression",
-			input: "+–927*8/84",
-			exp: "16",
+			input: "+-92*/843",
+			exp: "13",
 			err: nil,
 		},
 	}

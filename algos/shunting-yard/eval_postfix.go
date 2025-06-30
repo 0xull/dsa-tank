@@ -24,9 +24,11 @@ func EvalPostfix(postfix string) (string, error) {
 		}
 	}
 	
-	if es.Size() != 1 {
+	if es.Size() != 0 {
 		return "", fmt.Errorf("invalid postfix expression; stack size is %d after evaluation, expected 1", es.Size())
 	}
+	
+	fmt.Println("here")
 	
 	return es.Pop(), nil
 }

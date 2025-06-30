@@ -52,5 +52,5 @@ func (stack *StackArray[T]) IsEmpty() bool {
 } 
 
 func (stack *StackArray[T]) Size() int {
-	return len(stack.items)
+	return stack.top
 }
