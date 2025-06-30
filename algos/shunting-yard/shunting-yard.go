@@ -10,7 +10,7 @@ import (
 )
 
 func ShuntingYard(expression string) (string, error) {
-	s := stack.NewStackArray[rune](len(expression))
+	var s stack.StackArray[rune]
 	var postfix strings.Builder
 
 	s.Push('(')

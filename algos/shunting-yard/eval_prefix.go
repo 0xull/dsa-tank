@@ -8,7 +8,7 @@ import (
 )
 
 func EvalPrefix(prefix string) (string, error) {
-	ops := stack.NewStackArray[string](3)
+	var ops stack.StackArray[string]
 	r := []rune(prefix)
 
 	for i := len(r)-1; i >= 0; i-- {
@@ -30,7 +30,7 @@ func EvalPrefix(prefix string) (string, error) {
 		}
 	}
 	
-	if ops.Size() != 0 {
+	if ops.Size() != 1 {
 		return "", fmt.Errorf("invalid prefix expression: expected one resultant operator; got %d", ops.Size())
 	}
 	return ops.Pop(), nil

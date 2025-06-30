@@ -8,8 +8,8 @@ import (
 )
 
 func EvalParenthesizedInfixExpression(expr string) string {
-	sOperand := NewStackArray[string](len(expr)/2)
-	sOperator := NewStackArray[string](len(expr)/2)
+	var sOperand StackArray[string]
+	var sOperator StackArray[string]
 	
 	for _, v := range expr {
 		switch {

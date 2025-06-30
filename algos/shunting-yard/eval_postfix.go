@@ -9,7 +9,7 @@ import (
 )
 
 func EvalPostfix(postfix string) (string, error) {
-	es := stack.NewStackArray[string](3)
+	var es stack.StackArray[string]
 	
 	for _, c := range postfix {
 		switch {
