@@ -7,8 +7,8 @@ import (
 )
 
 func TestFactorial(t *testing.T) {
-	got := recursion.Factorial(4)
-	var exp uint = 24
+	got := recursion.Factorial(5)
+	var exp uint = 120
 	if exp != got {
 		t.Errorf("exp: %d; got: %d", exp, got)
 	}
