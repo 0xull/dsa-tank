@@ -1,6 +1,6 @@
 package recursion
 
-func IterFibonacci(number int) []int {
+func IterFibonacciSeq(number int) []int {
 	seq := []int{0, 1}
 	
 	for i := 2; i <= number; i++ {
