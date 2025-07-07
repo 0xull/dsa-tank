@@ -79,7 +79,7 @@ func (q *Deque[T]) RemoveFront() (T, error) {
 	q.items[q.left] = *new(T)
 	q.size--
 	
-	if q.size == 1 {
+	if q.IsEmpty() {
 		q.left = -1
 		q.right = -1
 	} else {
