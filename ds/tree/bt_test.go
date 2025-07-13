@@ -26,13 +26,23 @@ func TestBTNodeTraversal(t *testing.T) {
 	root.Left.Right.Left = &tree.LinkedBTNode[string]{Value: "C"}
 	root.Left.Right.Right = &tree.LinkedBTNode[string]{Value: "E"}
 	
-	// Recursive traversal
-	fmt.Print("Recursive traversal: \ngot: ")
+	// Recursive Pre-order traversal
+	fmt.Print("Recursive NLR traversal: \ngot: ")
 	tree.PreOrderRecursive(root)
 	fmt.Print("\nexpected: F B A D C E G I \n\n")
 	
-	// Iterative traversal
-	fmt.Printf("Iterative traversal: \ngot: ")
+	// Iterative Pre-order traversal
+	fmt.Printf("Iterative NLR traversal: \ngot: ")
 	tree.PreOrderIterative(root)
-	fmt.Print("\nexpected: F B A D C E G I \n")
+	fmt.Print("\nexpected: F B A D C E G I \n\n")
+	
+	// Recursive In-order traversal
+	fmt.Print("Recursive LNR traversal: \not: ")
+	tree.InOrderRecursive(root)
+	fmt.Print("\nexpected: A B C D E F G I \n\n")
+	
+	// Iterative In-order traversal
+	fmt.Print("Iterative LNR traversal: \ngot: ")
+	tree.InOrderIterative(root)
+	fmt.Print("\nexpected: A B C D E F G I \n")
 }
