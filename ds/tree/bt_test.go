@@ -67,5 +67,14 @@ func TestLRNTraversal(t *testing.T) {
 	// Iterative Post-order traversal 
 	fmt.Print("Iterative LRN traversal: \ngot: ")
 	tree.PostOrderIterative(root)
-	fmt.Print("\nexpected: A C E D B I G F \n")
+	fmt.Print("\nexpected: A C E D B I G F \n\n")
+}
+
+func TestBreadthFirstSearch(t *testing.T) {
+	root := sampleBTNode()
+	
+	// Breadth First Search Traversal
+	fmt.Print("Iterative Level-order traversal: \ngot: ")
+	tree.LevelOrderTraversal(root)
+	fmt.Print("\nexpected: F B G A D I C E \n")
 }

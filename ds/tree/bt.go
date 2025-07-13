@@ -146,3 +146,27 @@ func PostOrderRecursive[T any](node *LinkedBTNode[T]) {
 	// Process node value
 	fmt.Printf("%v ", node.Value)
 }
+
+// LevelOrderTraversal is a "breadth first search" traversal on a tree
+func LevelOrderTraversal[T any](node *LinkedBTNode[T]) {
+	if node == nil {
+		return
+	}
+	
+	queue := []*LinkedBTNode[T]{node}
+	
+	for len(queue) > 0 {
+		node = queue[0]
+		queue = queue[1:]
+		
+		fmt.Printf("%v ", node.Value)
+		
+		if node.Left != nil {
+			queue = append(queue, node.Left)
+		}
+		
+		if node.Right != nil {
+			queue = append(queue, node.Right)
+		}
+	}
+}
