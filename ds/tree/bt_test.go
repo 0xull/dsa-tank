@@ -7,9 +7,8 @@ import (
 	"github.com/IkehAkinyemi/dsa-tank/ds/tree"
 )
 
-func TestBTNodeTraversal(t *testing.T) {
+func sampleBTNode() *tree.LinkedBTNode[string] {
 	// Make tree:
-	// Let's build the following tree:
 	//	      F
 	//	     / \
 	//	    B   G
@@ -26,6 +25,12 @@ func TestBTNodeTraversal(t *testing.T) {
 	root.Left.Right.Left = &tree.LinkedBTNode[string]{Value: "C"}
 	root.Left.Right.Right = &tree.LinkedBTNode[string]{Value: "E"}
 	
+	return root
+}
+
+func TestNLRTraversal(t *testing.T) {
+	root := sampleBTNode()
+	
 	// Recursive Pre-order traversal
 	fmt.Print("Recursive NLR traversal: \ngot: ")
 	tree.PreOrderRecursive(root)
@@ -35,6 +40,10 @@ func TestBTNodeTraversal(t *testing.T) {
 	fmt.Printf("Iterative NLR traversal: \ngot: ")
 	tree.PreOrderIterative(root)
 	fmt.Print("\nexpected: F B A D C E G I \n\n")
+}
+
+func TestLNRTraversal(t *testing.T) {
+	root := sampleBTNode()
 	
 	// Recursive In-order traversal
 	fmt.Print("Recursive LNR traversal: \not: ")
@@ -44,5 +53,19 @@ func TestBTNodeTraversal(t *testing.T) {
 	// Iterative In-order traversal
 	fmt.Print("Iterative LNR traversal: \ngot: ")
 	tree.InOrderIterative(root)
-	fmt.Print("\nexpected: A B C D E F G I \n")
+	fmt.Print("\nexpected: A B C D E F G I \n\n")
+}
+
+func TestLRNTraversal(t *testing.T) {
+	root := sampleBTNode()
+	
+	// Recursive Post-order traversal
+	fmt.Print("Recursive LRN traversal: \ngot: ")
+	tree.PostOrderRecursive(root)
+	fmt.Print("\nexpected: A C E D B I G F \n\n")
+	
+	// Iterative Post-order traversal 
+	fmt.Print("Iterative LRN traversal: \ngot: ")
+	tree.PostOrderIterative(root)
+	fmt.Print("\nexpected: A C E D B I G F \n")
 }

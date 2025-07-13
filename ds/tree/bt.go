@@ -1,6 +1,8 @@
 package tree
 
-import "fmt"
+import (
+	"fmt"
+)
 
 // LinkedBTNode reps a linked binary tree in memory with
 // n >= 0 nodes, but n <= 2 nodes.
@@ -94,4 +96,53 @@ func InOrderRecursive[T any](node *LinkedBTNode[T]) {
 	fmt.Printf("%v ", node.Value)
 	
 	InOrderRecursive(node.Right)
+}
+
+// PostOrderIterative performs an iterative post-order traversal on a
+// tree using LRN systematic pattern. To achieve that, perform a skewed
+// variant of NLR, that is NRL which is inverse of LRN.
+func PostOrderIterative[T any](node *LinkedBTNode[T]) {
+	if node == nil {
+		return
+	}
+	
+	stack := []*LinkedBTNode[T]{node}
+	var result []T
+	
+	for len(stack) > 0 {
+		node = stack[len(stack)-1]
+		stack = stack[:len(stack)-1]
+		
+		// process node
+		result = append([]T{node.Value}, result...)
+		
+		if node.Left != nil {
+			stack = append(stack, node.Left)
+		}
+		
+		if node.Right != nil {
+			stack = append(stack, node.Right)
+		}
+	}
+	
+	for _, v := range result {
+		fmt.Printf("%v ", v)
+	}
+}
+
+// PostOrderRecursive perform a recursive post-order traversal on a tree
+// in a LRN systematic pattern.
+func PostOrderRecursive[T any](node *LinkedBTNode[T]) {
+	if node == nil {
+		return
+	}
+	
+	// Left subtree traversal
+	PostOrderRecursive(node.Left)
+	
+	// Right subtree traversal
+	PostOrderRecursive(node.Right)
+	
+	// Process node value
+	fmt.Printf("%v ", node.Value)
 }
