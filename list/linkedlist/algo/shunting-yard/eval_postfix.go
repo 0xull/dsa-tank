@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"unicode"
 
-	stack "github.com/IkehAkinyemi/dsa-tank/ds/stack/example"
+	stack "github.com/IkehAkinyemi/dsa-tank/stack/example"
 )
 
 func EvalPostfix(postfix string) (string, error) {

@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"unicode"
 
-	stack "github.com/IkehAkinyemi/dsa-tank/ds/stack/example"
+	stack "github.com/IkehAkinyemi/dsa-tank/stack/example"
 )
 
 func EvalPrefix(prefix string) (string, error) {
 	var ops stack.StackArray[string]
 	r := []rune(prefix)
-
+	
 	for i := len(r)-1; i >= 0; i-- {
 		switch {
 		case unicode.IsLetter(r[i]) || unicode.IsDigit(r[i]):

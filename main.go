@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 
-	shuntingyard "github.com/IkehAkinyemi/dsa-tank/algos/shunting-yard"
-	"github.com/IkehAkinyemi/dsa-tank/ds/list/linkedlist"
-	stack "github.com/IkehAkinyemi/dsa-tank/ds/stack/example"
+	"github.com/IkehAkinyemi/dsa-tank/list/linkedlist"
+	shuntingyard "github.com/IkehAkinyemi/dsa-tank/list/linkedlist/algo/shunting-yard"
+	stack "github.com/IkehAkinyemi/dsa-tank/stack/example"
 )
 
 type Process struct {
@@ -16,7 +16,7 @@ func main() {
 	sll := &linkedlist.SinglyLinkedList[Process]{
 		Head: &linkedlist.Node[Process]{Data: Process{1}, Next: &linkedlist.Node[Process]{Data: Process{2}, Next: nil}},
 	}
-
+	
 	sll.Display()
 	fmt.Println(sll.Search(Process{2}))
 	sll.Prepend(Process{0})

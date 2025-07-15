@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/IkehAkinyemi/dsa-tank/ds/tree"
+	"github.com/IkehAkinyemi/dsa-tank/tree"
 )
 
 func TestReconstructBT(t *testing.T) {

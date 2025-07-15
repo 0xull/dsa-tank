@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/IkehAkinyemi/dsa-tank/ds/tree"
+	"github.com/IkehAkinyemi/dsa-tank/tree"
 )
 
 func sampleBTNode() *tree.LinkedBTNode[string] {
@@ -24,7 +24,7 @@ func sampleBTNode() *tree.LinkedBTNode[string] {
 	root.Left.Right = &tree.LinkedBTNode[string]{Value: "D"}
 	root.Left.Right.Left = &tree.LinkedBTNode[string]{Value: "C"}
 	root.Left.Right.Right = &tree.LinkedBTNode[string]{Value: "E"}
-	
+		
 	return root
 }
 

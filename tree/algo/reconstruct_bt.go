@@ -1,6 +1,7 @@
 package bt_algo
 
-import "github.com/IkehAkinyemi/dsa-tank/ds/tree"
+import "github.com/IkehAkinyemi/dsa-tank/tree"
+
 
 func ReconstructBTTree[T comparable](preorder, inorder []T) *tree.LinkedBTNode[T] {
 	if len(preorder) == 0 || len(inorder) == 0 {

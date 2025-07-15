@@ -6,13 +6,13 @@ import (
 	"strings"
 	"unicode"
 
-	stack "github.com/IkehAkinyemi/dsa-tank/ds/stack/example"
+	stack "github.com/IkehAkinyemi/dsa-tank/stack/example"
 )
 
 func ShuntingYard(expression string) (string, error) {
 	var s stack.StackArray[rune]
 	var postfix strings.Builder
-
+	
 	s.Push('(')
 	expression += ")"
 
