@@ -1,6 +1,6 @@
 package recursion
 
-import "github.com/IkehAkinyemi/dsa-tank/ds/stack/example"
+import "github.com/IkehAkinyemi/dsa-tank/stack/example"
 
 func RecursionWithStack(num int) int {
 	if num <= 0 {

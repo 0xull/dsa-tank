@@ -7,7 +7,7 @@ import (
 	"github.com/IkehAkinyemi/dsa-tank/tree"
 )
 
-func TestReconstructBT(t *testing.T) {
+func TestReconstructBTFromPreorderInorder(t *testing.T) {
 	// Make tree:
 	//	      F
 	//	     / \
@@ -28,9 +28,16 @@ func TestReconstructBT(t *testing.T) {
 	preorder := []string{"F", "B", "A", "D", "C", "E", "G", "I"}
 	inorder := []string{"A", "B", "C", "D", "E", "F", "G", "I"}
 	
-	got := ReconstructBTTree(preorder, inorder)
+	got := ReconstructBTTreeFromPreorderInorder(preorder, inorder)
 	
 	if !reflect.DeepEqual(got, expected) {
 		t.Errorf("expected: %#v;\n\ngot: %#v;\n", expected, got)
+	}
+
+	postorder := []string{"A", "C", "E", "D", "B", "I", "G", "F"}
+	got = ReconstructBTTreeFromPostorderInorder(postorder, inorder)
+	
+	if !reflect.DeepEqual(got, expected) {
+		t.Errorf("expected: %#v; \n\ngot: %#v;\n", expected, got)
 	}
 }

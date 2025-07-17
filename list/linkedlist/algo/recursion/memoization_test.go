@@ -3,7 +3,7 @@ package recursion_test
 import (
 	"testing"
 
-	"github.com/IkehAkinyemi/dsa-tank/algos/recursion"
+	"github.com/IkehAkinyemi/dsa-tank/list/linkedlist/algo/recursion"
 )
 
 func TestMemoization(t *testing.T) {
