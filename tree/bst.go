@@ -41,3 +41,48 @@ func (bst *BST[T]) SearchIterative(val T) bool {
 	
 	return false
 }
+
+func (bst *BST[T]) Insert(val T) {
+	bst.Root = bst.insertRecursive(bst.Root, val)
+}
+
+func (bst *BST[T]) insertRecursive(node *LinkedBTNode[T], val T) *LinkedBTNode[T] {
+	if node == nil {
+		return &LinkedBTNode[T]{Value: val }
+	}
+	
+	if val < node.Value {
+		node.Left = bst.insertRecursive(node.Left, val)
+	} else if val > node.Value {
+		node.Right = bst.insertRecursive(node.Right, val)
+	}
+	
+	return node
+}
+
+func (bst *BST[T]) InsertIterative(node *LinkedBTNode[T], val T) {
+	nn := &LinkedBTNode[T]{Value: val}
+	
+	if bst.Root == nil {
+		bst.Root = nn
+	}
+	
+	curr := node
+	for {
+		if val < curr.Value {
+			if curr.Left == nil {
+				curr.Left = nn
+				return
+			}
+			curr = curr.Left
+		} else if val > curr.Value {
+			if curr.Right == nil {
+				curr.Right = nn
+				return
+			}
+			curr = curr.Right
+		} else {
+			return
+		}
+	}
+}
