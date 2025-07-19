@@ -86,3 +86,40 @@ func (bst *BST[T]) InsertIterative(node *LinkedBTNode[T], val T) {
 		}
 	}
 }
+
+func (bst *BST[T]) Delete(val T) {
+	bst.Root = bst.delRecursive(bst.Root, val)
+}
+
+func (bst *BST[T]) delRecursive(node *LinkedBTNode[T], val T) *LinkedBTNode[T] {
+	if node == nil {
+		return nil
+	}
+	
+	if val < node.Value {
+		node.Left = bst.delRecursive(node.Left, val)
+	} else if val > node.Value {
+		node.Right = bst.delRecursive(node.Right, val)
+	} else {
+		if node.Left == nil {
+			return node.Right
+		} else if node.Right == nil {
+			return node.Left
+		}
+		
+		successor := findMin(node.Right)
+		node.Value = successor.Value
+		
+		node.Right = bst.delRecursive(node.Right, successor.Value)
+	}
+	
+	return node
+}
+
+func findMin[T any](node *LinkedBTNode[T]) *LinkedBTNode[T] {
+	curr := node
+	for curr != nil && curr.Left != nil {
+		curr = curr.Left
+	}
+	return curr
+}
