@@ -1,17 +1,19 @@
 package tree
 
-type AVLNode[T comparable] struct {
+import "cmp"
+
+type AVLNode[T cmp.Ordered] struct {
 	Value  T
 	Left   *AVLNode[T]
 	Right  *AVLNode[T]
 	height int
 }
 
-type AVLTree[T comparable] struct {
+type AVLTree[T cmp.Ordered] struct {
 	root *AVLNode[T]
 }
 
-func height[T comparable](node *AVLNode[T]) int {
+func height[T cmp.Ordered](node *AVLNode[T]) int {
 	if node == nil {
 		return -1
 	}
@@ -22,7 +24,7 @@ func (avl *AVLNode[T]) updateHeight() {
 	avl.height = 1 + max(height(avl.Right), height(avl.Left))
 }
 
-func balanceFactor[T comparable](node *AVLNode[T]) int {
+func balanceFactor[T cmp.Ordered](node *AVLNode[T]) int {
 	if node == nil {
 		return 0
 	}
@@ -51,7 +53,7 @@ func balanceFactor[T comparable](node *AVLNode[T]) int {
 //	  20 (x)         -->                10   30
 //	 /
 //	10 (T1)
-func rightRotate[T comparable](y *AVLNode[T]) *AVLNode[T] {
+func rightRotate[T cmp.Ordered](y *AVLNode[T]) *AVLNode[T] {
 	// 1. Identify the key nodes from the imbalanced input.
 	//    - y is the pivot, node 30.
 	//    - x becomes its left child, node 20.
@@ -97,7 +99,7 @@ func rightRotate[T comparable](y *AVLNode[T]) *AVLNode[T] {
 //	   20 (y)      -->                10   30
 //	     \
 //	      30 (T3)
-func leftRotate[T comparable](x *AVLNode[T]) *AVLNode[T] {
+func leftRotate[T cmp.Ordered](x *AVLNode[T]) *AVLNode[T] {
 	// 1. Identify key nodes from the imbalanced input.
 	//    - x is the pivot, node 10.
 	//    - y becomes its right child, node 20.
@@ -118,4 +120,44 @@ func leftRotate[T comparable](x *AVLNode[T]) *AVLNode[T] {
 
 	// 4. Return the pointer to the new root of this subtree (node 20).
 	return y
+}
+
+func (avl *AVLTree[T]) Insert(value T) {
+	avl.root = avl.insert(avl.root, value)
+}
+
+func (avl *AVLTree[T]) insert(node *AVLNode[T], val T) *AVLNode[T] {
+	if node == nil {
+		return &AVLNode[T]{Value: val, height: 0}
+	}
+
+	if val == node.Value {
+		return node
+	}
+
+	if val < node.Value {
+		node.Left = avl.insert(node.Left, val)
+	} else if val > node.Value {
+		node.Right = avl.insert(node.Right, val)
+	}
+
+	node.updateHeight()
+	bf := balanceFactor(node)
+
+	if bf > 1 {
+		if val > node.Right.Value {
+			return leftRotate(node)
+		}
+		node.Right = rightRotate(node.Right)
+		return leftRotate(node)
+	}
+	if bf < -1 {
+		if val < node.Left.Value {
+			return rightRotate(node)
+		}
+		node.Left = leftRotate(node.Left)
+		return rightRotate(node)
+	}
+
+	return node
 }
