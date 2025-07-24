@@ -161,3 +161,34 @@ func (avl *AVLTree[T]) insert(node *AVLNode[T], val T) *AVLNode[T] {
 
 	return node
 }
+
+func (avl *AVLTree[T]) Delete(value int) {
+	avl.root = avl.delete(avl.root, value)
+}
+
+func (avl *AVLTree[T]) delete(node *AVLNode[T], val T) *AVLNode[T] {
+	if node == nil {
+		return nil
+	}
+	
+	if val < node.Value {
+		node.Left = avl.delete(node.Left, val)
+	} else if val > node.Value {
+		node.Right = avl.delete(node.Right, val)
+	} else {
+		if node.Left == nil {
+			return node.Right
+		}
+		if node.Right == nil {
+			return node.Left
+		}
+		
+		successor := findMin(node.Right)
+		node.Value = successor.Value
+	}
+	
+}
+
+func findMin[T comparable](node *AVLNode[T]) *AVLNode[T] {
+	
+}
