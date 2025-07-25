@@ -162,7 +162,7 @@ func (avl *AVLTree[T]) insert(node *AVLNode[T], val T) *AVLNode[T] {
 	return node
 }
 
-func (avl *AVLTree[T]) Delete(value int) {
+func (avl *AVLTree[T]) Delete(value T) {
 	avl.root = avl.delete(avl.root, value)
 }
 
@@ -183,12 +183,36 @@ func (avl *AVLTree[T]) delete(node *AVLNode[T], val T) *AVLNode[T] {
 			return node.Left
 		}
 		
-		successor := findMin(node.Right)
+		successor := avlFindMin(node.Right)
 		node.Value = successor.Value
+		node.Right = avl.delete(node.Right, successor.Value)
 	}
 	
+	node.updateHeight()
+	bf := balanceFactor(node)
+	
+	if bf > 1 {
+		if balanceFactor(node.Right) >= 0 {
+			return leftRotate(node)
+		}
+		node.Right = rightRotate(node.Right)
+		return leftRotate(node)
+	}
+	if bf < -1 {
+		if balanceFactor(node.Left)  <= 0 {
+			return rightRotate(node)
+		}
+		node.Left = leftRotate(node.Left)
+		return rightRotate(node)
+	}
+	
+	return node
 }
 
-func findMin[T comparable](node *AVLNode[T]) *AVLNode[T] {
-	
+func avlFindMin[T cmp.Ordered](node *AVLNode[T]) *AVLNode[T] {
+	curr := node
+	if curr != nil && curr.Left == nil {
+		curr = curr.Left
+	}
+	return curr
 }
