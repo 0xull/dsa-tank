@@ -170,7 +170,7 @@ func (avl *AVLTree[T]) delete(node *AVLNode[T], val T) *AVLNode[T] {
 	if node == nil {
 		return nil
 	}
-	
+
 	if val < node.Value {
 		node.Left = avl.delete(node.Left, val)
 	} else if val > node.Value {
@@ -182,15 +182,15 @@ func (avl *AVLTree[T]) delete(node *AVLNode[T], val T) *AVLNode[T] {
 		if node.Right == nil {
 			return node.Left
 		}
-		
+
 		successor := avlFindMin(node.Right)
 		node.Value = successor.Value
 		node.Right = avl.delete(node.Right, successor.Value)
 	}
-	
+
 	node.updateHeight()
 	bf := balanceFactor(node)
-	
+
 	if bf > 1 {
 		if balanceFactor(node.Right) >= 0 {
 			return leftRotate(node)
@@ -199,13 +199,13 @@ func (avl *AVLTree[T]) delete(node *AVLNode[T], val T) *AVLNode[T] {
 		return leftRotate(node)
 	}
 	if bf < -1 {
-		if balanceFactor(node.Left)  <= 0 {
+		if balanceFactor(node.Left) <= 0 {
 			return rightRotate(node)
 		}
 		node.Left = leftRotate(node.Left)
 		return rightRotate(node)
 	}
-	
+
 	return node
 }
 
