@@ -1,6 +1,9 @@
 package tree
 
-import "cmp"
+import (
+	"cmp"
+	"time"
+)
 
 type Color bool
 
@@ -52,5 +55,53 @@ func (rbt *RedBlackTree[T]) Insert(val T) {
 }
 
 func (rbt *RedBlackTree[T]) fixInsert(z *RBNode[T]) {
+	for z != rbt.root && z.Parent.Color == RED {
+		parent := z.Parent
+		grandParent := parent.Parent
+		
+		if parent == grandParent.Left {
+			uncle := grandParent.Right
+			
+			if uncle != nil && uncle.Color == RED {
+				parent.Color = BLACK
+				uncle.Color = BLACK
+				grandParent.Color = RED
+				z = grandParent
+			} else {
+				if z == parent.Right {
+					z = parent
+					rbt.leftRotate(z)
+					parent = z.Parent
+				}
+				
+				parent.Color = BLACK
+				grandParent.Color = RED
+				rbt.rightRotate(grandParent)
+			}
+		} else {
+			uncle := grandParent.Left
+			
+			if uncle != nil && uncle.Color == RED {
+				parent.Color = BLACK
+				uncle.Color = BLACK
+				grandParent.Color = RED
+				z = grandParent
+			} else {
+				if z == parent.Left {
+					z = parent
+					rbt.rightRotate(z)
+					parent = z.Parent
+				}
+				
+				parent.Color = BLACK
+				grandParent.Color = RED
+				rbt.leftRotate(grandParent)
+			}
+		}
+	}
 	
+	rbt.root.Color = BLACK
 }
+
+func (rbt *RedBlackTree[T]) leftRotate(node *RBNode[T]) {}
+func (rbt *RedBlackTree[T]) rightRotate(node *RBNode[T]) {}
