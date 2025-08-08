@@ -143,3 +143,19 @@ func (rbt *RedBlackTree[T]) rightRotate(y *RBNode[T]) {
 	x.Right = y
 	y.Parent = x
 }
+
+// transplant replaces the subtree rooted at node u with the subtree rooted at node v
+// It handles all the necessary parent pointer updates.
+func (rbt *RedBlackTree[T]) transplant(u, v *RBNode[T]) {
+	if u.Parent == nil {
+		rbt.root = v
+	} else if u == u.Parent.Left {
+		u.Parent.Left = v
+	} else {
+		u.Parent.Right = v
+	}
+	
+	if v != nil {
+		v.Parent = u.Parent
+	}
+}
