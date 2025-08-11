@@ -144,6 +144,62 @@ func (rbt *RedBlackTree[T]) rightRotate(y *RBNode[T]) {
 	y.Parent = x
 }
 
+func (rbt *RedBlackTree[T]) Delete(val T) {
+	nodeToDelete := rbt.findNode(val)
+	if nodeToDelete == nil {
+		return
+	}
+	rbt.deleteNode(nodeToDelete)
+}
+
+func (rbt *RedBlackTree[T]) deleteNode(z *RBNode[T]) {
+	var y = z
+	yOriginalColor := y.Color
+	
+	// x is the child that moves into y's original position
+	var x *RBNode[T]
+	
+	// case 1 & 2: z has at most one child.
+	if z.Left == nil {
+		x = z.Right
+		rbt.transplant(z, z.Right)
+	} else if z.Right == nil {
+		x = z.Left
+		rbt.transplant(z, z.Left)
+	} else {
+		// case 3: z has two children
+		// find in-order successor
+		y = rbFindMin(z.Right)
+		yOriginalColor = y.Color
+		x = y.Right
+		
+		if y.Parent == z {
+			if x != nil {
+				x.Parent = y
+			}
+		} else {
+			rbt.transplant(y, y.Right)
+			y.Right = z.Right
+			y.Right.Parent = y
+		}
+		
+		rbt.transplant(z, y)
+		y.Left = z.Left
+		y.Left.Parent = y
+		y.Color = z.Color
+	}
+	
+	if yOriginalColor == BLACK {
+		if x != nil {
+			rbt.deleteFixup(x)
+		}
+	}
+}
+
+func (rbt *RedBlackTree[T]) deleteFixup(x *RBNode[T]) {
+	
+}
+
 // transplant replaces the subtree rooted at node u with the subtree rooted at node v
 // It handles all the necessary parent pointer updates.
 func (rbt *RedBlackTree[T]) transplant(u, v *RBNode[T]) {
@@ -158,4 +214,24 @@ func (rbt *RedBlackTree[T]) transplant(u, v *RBNode[T]) {
 	if v != nil {
 		v.Parent = u.Parent
 	}
+}
+
+func (rbt *RedBlackTree[T]) findNode(val T) *RBNode[T] {
+	node := rbt.root
+	for node != nil && node.Value != val {
+		if val < node.Value {
+			node = node.Left
+		} else {
+			node = node.Right
+		}
+	}
+	return node
+}
+
+func rbFindMin[T cmp.Ordered](node *RBNode[T]) *RBNode[T] {
+	curr := node
+	for curr != nil && curr.Left != nil {
+		curr = curr.Left
+	}
+	return curr
 }

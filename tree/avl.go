@@ -211,7 +211,7 @@ func (avl *AVLTree[T]) delete(node *AVLNode[T], val T) *AVLNode[T] {
 
 func avlFindMin[T cmp.Ordered](node *AVLNode[T]) *AVLNode[T] {
 	curr := node
-	if curr != nil && curr.Left == nil {
+	if curr != nil && curr.Left != nil {
 		curr = curr.Left
 	}
 	return curr
