@@ -7,6 +7,11 @@ func heapsort[T cmp.Ordered](slice []T) {
 	for i := (n / 2) - 1; i >= 0; i-- {
 		siftDown(slice, n, i)
 	}
+	
+	for i := n-1; i > 0; i-- {
+		slice[0], slice[i] = slice[i], slice[0]
+		siftDown(slice, i, 0)
+	}
 }
 
 func siftDown[T cmp.Ordered](slice []T, n, i int) {
