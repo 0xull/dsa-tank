@@ -34,3 +34,27 @@ func (trie *Trie) Insert(word string) {
 	
 	current.isEndOfWord = true
 }
+
+func (trie *Trie) SearchWord(word string) bool {
+	curr := trie.root
+	
+	for _, char := range word {
+		if _, found := curr.children[char]; !found {
+			return false
+		}
+		curr = curr.children[char]
+	}
+	return curr.isEndOfWord
+}
+
+func (trie *Trie) StartsWith(prefix string) bool {
+	curr := trie.root
+	
+	for _, char := range prefix {
+		if _, found := curr.children[char]; !found {
+			return false
+		}
+		curr = curr.children[char]
+	}
+	return true
+}
