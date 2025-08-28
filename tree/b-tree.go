@@ -99,3 +99,37 @@ func (btree *BTree[T]) insertNonFull(x *BTreeNode[T], k T) {
 		btree.insertNonFull(x.children[i], k)
 	}
 }
+
+// splitChild splits the full child y of node x
+func (btree *BTree[T]) splitChild(x *BTreeNode[T], i int) {
+	y := x.children[i]
+	z := &BTreeNode[T]{
+		isLeaf:   y.isLeaf,
+		keys:     make([]T, 2*btree.t-1),
+		children: make([]*BTreeNode[T], 2*btree.t),
+		n:        btree.t - 1,
+	}
+
+	for j := 0; j < btree.t-1; j++ {
+		z.keys[j] = y.keys[j+btree.t]
+	}
+
+	if !y.isLeaf {
+		for j := 0; j < btree.t; j++ {
+			z.children[j] = y.children[j+btree.t]
+		}
+	}
+
+	y.n = btree.t - 1
+	for j := x.n; j > i; j-- {
+		x.children[j+1] = x.children[j]
+	}
+	x.children[i+1] = z
+
+	for j := x.n - 1; j >= i; j-- {
+		x.keys[j+1] = x.keys[j]
+	}
+	x.keys[i] = y.keys[btree.t-1]
+
+	x.n++
+}
