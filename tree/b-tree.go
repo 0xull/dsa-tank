@@ -74,3 +74,28 @@ func (btree *BTree[T]) Insert(k T) {
 		btree.insertNonFull(root, k)
 	}
 }
+
+// insertNonFull inserts a key into a node that is guaranteed to be not full.
+func (btree *BTree[T]) insertNonFull(x *BTreeNode[T], k T) {
+	i := x.n - 1
+	if x.isLeaf {
+		for i >= 0 && k < x.keys[i] {
+			x.keys[i+1] = x.keys[i]
+			i--
+		}
+		x.keys[i+1] = k
+		x.n++
+	} else {
+		for i >= 0 && k < x.keys[i] {
+			i--
+		}
+		i++
+		if x.children[i].n == 2*btree.t-1 {
+			btree.splitChild(x, i)
+			if k > x.keys[i] {
+				i++
+			}
+		}
+		btree.insertNonFull(x.children[i], k)
+	}
+}
