@@ -41,8 +41,8 @@ func (btree *BTree[T]) Search(k T) (*BTreeNode[T], int) {
 	if btree.root == nil {
 		return nil, -1
 	}
-	
-	btree.root.search(k)
+
+	return btree.root.search(k)
 }
 
 func (x *BTreeNode[T]) search(k T) (*BTreeNode[T], int) {
@@ -50,14 +50,27 @@ func (x *BTreeNode[T]) search(k T) (*BTreeNode[T], int) {
 	for i < x.n && k > x.keys[i] {
 		i++
 	}
-	
+
 	if i < x.n && k == x.keys[i] {
 		return x, i
 	}
-	
+
 	if x.isLeaf {
 		return nil, -1
 	}
-	
+
 	return x.children[i].search(k)
+}
+
+func (btree *BTree[T]) Insert(k T) {
+	root := btree.root
+	if root.n == 2*btree.t-1 {
+		newRoot := &BTreeNode[T]{isLeaf: false, children: make([]*BTreeNode[T], 2*btree.t), n: 0}
+		newRoot.children[0] = root
+		btree.root = newRoot
+		btree.splitChild(newRoot, 0)
+		btree.insertNonFull(newRoot, k)
+	} else {
+		btree.insertNonFull(root, k)
+	}
 }
