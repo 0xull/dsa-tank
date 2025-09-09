@@ -32,7 +32,7 @@ func (stack *LinkedStack[T]) IsEmpty() bool {
 }
 
 func ReverseArray[T comparable](array []T) []T {
-	if array == nil || len(array) == 0 {
+	if len(array) == 0 {
 		return []T{}
 	}
 	
