@@ -7,6 +7,7 @@ import (
 
 // Edge represents a connection between two vertices with specific weight.
 type Edge[T cmp.Ordered] struct {
+	From   T
 	To     T
 	Weight int
 }
@@ -18,7 +19,7 @@ type WeightedGraph[T cmp.Ordered] struct {
 }
 
 // EdgePriorityQueue implements heap.Interface for a slice of Edges. A Min-Heap based on
-// edge weights. 
+// edge weights.
 type EdgePriorityQueue[T cmp.Ordered] []*Edge[T]
 
 func (pq EdgePriorityQueue[T]) Len() int           { return len(pq) }
@@ -50,26 +51,26 @@ func (g *WeightedGraph[T]) PrimsMST(startVertex T) ([]Edge[T], int) {
 		visited[u] = true
 		for _, edge := range g.adjList[u] {
 			if !visited[edge.To] {
-				heap.Push(&pq, &Edge[T]{To: edge.To, Weight: edge.Weight})
+				heap.Push(&pq, &Edge[T]{From: u, To: edge.To, Weight: edge.Weight})
 			}
 		}
 	}
-	
+
 	addEdges(startVertex)
-	
+
 	for pq.Len() > 0 && len(mst) < g.numVertices-1 {
 		edge := heap.Pop(&pq).(*Edge[T])
 		v := edge.To
-		
+
 		if visited[v] {
 			continue
 		}
-		
+
 		mst = append(mst, *edge)
 		totalWeight += edge.Weight
-		
+
 		addEdges(v)
 	}
-	
+
 	return mst, totalWeight
 }
