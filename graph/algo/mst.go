@@ -18,6 +18,18 @@ type WeightedGraph[T cmp.Ordered] struct {
 	adjList     map[T][]Edge[T]
 }
 
+func NewWeightGraph[T cmp.Ordered](numVertices int) *WeightedGraph[T] {
+	return &WeightedGraph[T]{
+		numVertices: numVertices,
+		adjList:     make(map[T][]Edge[T]),
+	}
+}
+
+func (g *WeightedGraph[T]) AddEdge(from T, to T, weight int) {
+	g.adjList[from] = append(g.adjList[from], Edge[T]{From: from, To: to, Weight: weight})
+	g.adjList[to] = append(g.adjList[to], Edge[T]{From: to, To: from, Weight: weight})
+}
+
 // EdgePriorityQueue implements heap.Interface for a slice of Edges. A Min-Heap based on
 // edge weights.
 type EdgePriorityQueue[T cmp.Ordered] []*Edge[T]
