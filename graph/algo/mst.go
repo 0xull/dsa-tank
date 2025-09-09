@@ -11,11 +11,14 @@ type Edge[T cmp.Ordered] struct {
 	Weight int
 }
 
+// WeightedGraph uses an adjacency list to represent a weighted, undirected graph.
 type WeightedGraph[T cmp.Ordered] struct {
 	numVertices int
 	adjList     map[T][]Edge[T]
 }
 
+// EdgePriorityQueue implements heap.Interface for a slice of Edges. A Min-Heap based on
+// edge weights. 
 type EdgePriorityQueue[T cmp.Ordered] []*Edge[T]
 
 func (pq EdgePriorityQueue[T]) Len() int           { return len(pq) }
@@ -36,6 +39,7 @@ func (pq *EdgePriorityQueue[T]) Pop() any {
 	return item
 }
 
+// PrimsMST finds the Minimum Spanning Tree of a graph using the Prim's algorithm.
 func (g *WeightedGraph[T]) PrimsMST(startVertex T) ([]Edge[T], int) {
 	visited := make(map[T]bool)
 	mst := []Edge[T]{}
@@ -61,6 +65,11 @@ func (g *WeightedGraph[T]) PrimsMST(startVertex T) ([]Edge[T], int) {
 			continue
 		}
 		
-		mst := append(mst, *edge)
+		mst = append(mst, *edge)
+		totalWeight += edge.Weight
+		
+		addEdges(v)
 	}
+	
+	return mst, totalWeight
 }
