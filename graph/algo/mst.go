@@ -86,3 +86,64 @@ func (g *WeightedGraph[T]) PrimsMST(startVertex T) ([]Edge[T], int) {
 
 	return mst, totalWeight
 }
+
+type DSU[T cmp.Ordered] struct {
+	parent        []int
+	size          []int
+	vertexToIndex map[T]int
+}
+
+func NewDSU[T cmp.Ordered](vertices []T) *DSU[T] {
+	count := len(vertices)
+	parent := make([]int, count)
+	size := make([]int, count)
+	vertexToIndex := make(map[T]int, count)
+
+	for i, v := range vertices {
+		parent[i] = i
+		size[i] = 1
+		vertexToIndex[v] = i
+	}
+
+	return &DSU[T]{
+		parent: parent, 
+		size: size, 
+		vertexToIndex: vertexToIndex,
+	}
+}
+
+// findRec is the internal recursive helper tat works with integer indices.
+func (dsu *DSU[T]) findRec(i int) int {
+	if dsu.parent[i] != i {
+		dsu.parent[i] = dsu.findRec(dsu.parent[i])
+	}
+	return dsu.parent[i]
+}
+
+// Find returns the representative of the set containing the vertex v.
+func (dsu *DSU[T]) Find(v T) int {
+	index, ok := dsu.vertexToIndex[v]
+	if !ok {
+		return -1
+	}
+	return dsu.findRec(index)
+}
+
+// Union merges the sets containing vertices u and v.
+func (dsu *DSU[T]) Union(u, v T) {
+	rootU := dsu.Find(u)
+	rootV := dsu.Find(v)
+	
+	if rootU == rootV {
+		return
+	}
+	
+	// Union by size
+	if dsu.size[rootU] < dsu.size[rootV] {
+		dsu.parent[rootU] = rootV
+		dsu.size[rootV] += dsu.size[rootU]
+	} else {
+		dsu.parent[rootV] = rootU
+		dsu.size[rootU] += dsu.size[rootV]
+	}
+}
