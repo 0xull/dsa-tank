@@ -3,6 +3,7 @@ package graph
 import (
 	"cmp"
 	"container/heap"
+	"sort"
 )
 
 // Edge represents a connection between two vertices with specific weight.
@@ -106,8 +107,8 @@ func NewDSU[T cmp.Ordered](vertices []T) *DSU[T] {
 	}
 
 	return &DSU[T]{
-		parent: parent, 
-		size: size, 
+		parent:        parent,
+		size:          size,
 		vertexToIndex: vertexToIndex,
 	}
 }
@@ -133,11 +134,11 @@ func (dsu *DSU[T]) Find(v T) int {
 func (dsu *DSU[T]) Union(u, v T) {
 	rootU := dsu.Find(u)
 	rootV := dsu.Find(v)
-	
+
 	if rootU == rootV {
 		return
 	}
-	
+
 	// Union by size
 	if dsu.size[rootU] < dsu.size[rootV] {
 		dsu.parent[rootU] = rootV
@@ -146,4 +147,46 @@ func (dsu *DSU[T]) Union(u, v T) {
 		dsu.parent[rootV] = rootU
 		dsu.size[rootU] += dsu.size[rootV]
 	}
+}
+
+func (g *WeightedGraph[T]) KruskalsMST() ([]Edge[T], int) {
+	var vertices []T
+	seenVertices := make(map[T]bool)
+	for v := range g.adjList {
+		if !seenVertices[v] {
+			vertices = append(vertices, v)
+			seenVertices[v] = true
+		}
+	}
+
+	var edges []Edge[T]
+	for from, neighbour := range g.adjList {
+		for _, edge := range neighbour {
+			if from < edge.To {
+				edges = append(edges, edge)
+			}
+		}
+	}
+
+	sort.Slice(edges, func(i, j int) bool {
+		return edges[i].Weight < edges[j].Weight
+	})
+	
+	mst := []Edge[T]{}
+	totalWeight := 0
+	dsu := NewDSU(vertices)
+	
+	for _, edge := range edges {
+		if len(mst) == g.numVertices {
+			break
+		}
+		
+		if dsu.Find(edge.From) != dsu.Find(edge.To) {
+			mst = append(mst, edge)
+			totalWeight += edge.Weight
+			dsu.Union(edge.From, edge.To)
+		}
+	}
+	
+	return mst, totalWeight
 }
