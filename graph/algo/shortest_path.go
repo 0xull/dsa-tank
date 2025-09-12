@@ -1,6 +1,10 @@
 package graph
 
-import "cmp"
+import (
+	"cmp"
+	"container/heap"
+	"math"
+)
 
 type Item[T cmp.Ordered] struct {
 	vertex   T
@@ -37,4 +41,35 @@ func (pq *PriorityQueue[T]) Pop() any {
 	item.index = -1
 	*pq = old[:n-1]
 	return item
+}
+
+func (g WeightedGraph[T]) Dijkstra(startVertex T) (map[T]int, map[T]T) {
+	distance := make(map[T]int)
+	predescessors := make(map[T]T)
+	pq := make(PriorityQueue[T], 0)
+
+	for i := range g.numVertices {
+		distance[T(i)] = math.MaxInt32
+	}
+	distance[startVertex] = 0
+
+	heap.Push(&pq, &Item[T]{vertex: startVertex, priority: 0})
+	
+	for pq.Len() > 0 {
+		uitem := heap.Pop(&pq).(*Item[T])
+		u := uitem.vertex
+		
+		for _, edge := range g.adjList[u] {
+			v := edge.To
+			weight := edge.Weight
+			
+			newDistance := distance[u] + weight
+			if newDistance < distance[v] {
+				distance[v] = newDistance
+				predescessors[v] = u
+				heap.Push(&pq, &Item[T]{vertex: v, priority: newDistance})
+			}
+		}
+	}
+	return distance, predescessors
 }

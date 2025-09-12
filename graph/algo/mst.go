@@ -19,7 +19,7 @@ type WeightedGraph[T cmp.Ordered] struct {
 	adjList     map[T][]Edge[T]
 }
 
-func NewWeightGraph[T cmp.Ordered](numVertices int) *WeightedGraph[T] {
+func NewWeightedGraph[T cmp.Ordered](numVertices int) *WeightedGraph[T] {
 	return &WeightedGraph[T]{
 		numVertices: numVertices,
 		adjList:     make(map[T][]Edge[T]),

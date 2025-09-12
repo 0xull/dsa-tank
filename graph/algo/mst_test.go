@@ -8,7 +8,7 @@ import (
 )
 
 func TestPrimsMST(t *testing.T) {
-	g := graph.NewWeightGraph[int](4)
+	g := graph.NewWeightedGraph[int](4)
 	g.AddEdge(0, 1, 2)
 	g.AddEdge(0, 3, 4)
 	g.AddEdge(0, 2, 5)
