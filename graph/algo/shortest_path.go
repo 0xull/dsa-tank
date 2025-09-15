@@ -3,6 +3,7 @@ package graph
 import (
 	"cmp"
 	"container/heap"
+	"fmt"
 	"math"
 )
 
@@ -72,4 +73,41 @@ func (g WeightedGraph[T]) Dijkstra(startVertex T) (map[T]int, map[T]T) {
 		}
 	}
 	return distance, predescessors
+}
+
+func (g *WeightedGraph[T]) BellmanFord(startVertex T) (map[T]int, map[T]T, error) {
+	distances := make(map[T]int)
+	predescessors := make(map[T]T)
+	
+	for i := range g.numVertices {
+		distances[T(i)] = math.MaxInt32
+	}
+	distances[startVertex] = 0
+	
+	var allEdges []Edge[T]
+	for from, neighbors := range g.adjList {
+		for _, edge := range neighbors {
+			allEdges = append(allEdges, Edge[T]{From: from, To: edge.To, Weight: edge.Weight})
+		}
+	}
+	
+	for range g.numVertices-1 {
+		for _, edge := range allEdges {
+			u, v, weight := edge.From, edge.To, edge.Weight
+			
+			if distances[u] != math.MaxInt32 && distances[u]+weight < distances[v] {
+				distances[v] = distances[u]+weight
+				predescessors[v] = u
+			}
+		}
+	}
+	
+	for _, edge := range allEdges {
+		u, v, weight := edge.From, edge.To, edge.Weight
+		if distances[u] != math.MaxInt32 && distances[u]+weight < distances[v] {
+			return nil, nil, fmt.Errorf("graph contains a negative weight cycle")
+		}
+	}
+	
+	return distances, predescessors, nil
 }
