@@ -111,3 +111,36 @@ func (g *WeightedGraph[T]) BellmanFord(startVertex T) (map[T]int, map[T]T, error
 	
 	return distances, predescessors, nil
 }
+
+// FloydWarshall find the shortest paths between all pairs of vertices.
+// It takes an adjacency matrix as input, where graph[i][j] is the weight
+// of the edge from i to j, or infinity if no direct edge exists.
+func FloydWarshall(graph [][]int) ([][]int, error) {
+	V := len(graph)
+	dist := make([][]int, V)
+	
+	for i := range V {
+		dist[i] = make([]int, V)
+		copy(dist[i], graph[i])
+	}
+	
+	for k := range V {
+		for i := range V {
+			for j := range V {
+				if dist[i][j] != math.MaxInt32 && dist[k][j] != math.MaxInt32 {
+					if dist[i][k]+dist[k][j] < dist[i][j] {
+						dist[i][j] = dist[i][k] + dist[k][j]
+					}
+				}
+			}
+		}
+	}
+	
+	for i := range V {
+		if dist[i][i] < 0 {
+			return nil, fmt.Errorf("graph contains a negative weight cycle")
+		}
+	}
+	
+	return dist, nil
+}
