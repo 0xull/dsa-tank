@@ -10,6 +10,18 @@ type Graph[T cmp.Ordered] struct {
 	adjList     map[T][]T
 }
 
+func NewGraph[T cmp.Ordered](numVertices int) *Graph[T] {
+	return &Graph[T]{
+		numVertices: numVertices,
+		adjList: make(map[T][]T),
+	}
+}
+
+func (g *Graph[T]) AddDirectedEdge(from T, to T) {
+	g.adjList[from] = append(g.adjList[from], to)
+}
+
+
 func (g *Graph[T]) BFS(startVertex T) {
 	visited := make(map[T]bool)
 	queue := []T{}
