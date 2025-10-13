@@ -1,35 +1,32 @@
 package leetcode
 
 import (
-	"fmt"
 	"testing"
 )
 
 func lengthOfLongestSubstring(s string) int {
-    substr := []string{}
-    indices := map[string]int{}
-
-    for i, r := range s {
-        val := string(r)
-        if _, ok := indices[val]; ok {
-            index := indices[val]
-            fmt.Println(index)
-            substr1, substr2 := substr[:index], substr[index:]
-            if len(substr1) > len(substr2) {
-                substr = substr1
-            } else {
-                substr = substr2
-            }
-
-            delete(indices, val)
-            continue
-        }
-
-        indices[val] = i
-        substr = append(substr, val)
-    }
-
-    return len(substr)
+	dups := map[string]struct{}{}
+	substrIndex := 0
+	substrLen := 0
+	
+	for i, r := range s {
+		rs := string(r)
+		if _, ok := dups[rs]; ok {
+			l := len(s[substrIndex:i])
+			if l > substrLen {
+				substrLen = l
+			}
+			
+			substrIndex = i
+			dups = make(map[string]struct{})
+			dups[rs] = struct{}{}
+			continue
+		}
+		
+		dups[rs] = struct{}{}
+	}
+	
+	return substrLen
 }
 
 func TestLengthOfLongestSubstring(t *testing.T) {
