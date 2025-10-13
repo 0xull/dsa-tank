@@ -5,28 +5,24 @@ import (
 )
 
 func lengthOfLongestSubstring(s string) int {
-	dups := map[string]struct{}{}
-	substrIndex := 0
-	substrLen := 0
-	
-	for i, r := range s {
-		rs := string(r)
-		if _, ok := dups[rs]; ok {
-			l := len(s[substrIndex:i])
-			if l > substrLen {
-				substrLen = l
-			}
-			
-			substrIndex = i
-			dups = make(map[string]struct{})
-			dups[rs] = struct{}{}
-			continue
-		}
-		
-		dups[rs] = struct{}{}
-	}
-	
-	return substrLen
+	lastSeen := make(map[byte]int)
+    start := 0
+    maxLength := 0
+
+    for i := range len(s) {
+        char := s[i]
+        if lastIndex, seen := lastSeen[char]; seen && lastIndex >= start {
+            start = lastIndex + 1
+        }
+
+        lastSeen[char] = i
+
+        l := i - start + 1
+        if l > maxLength {
+            maxLength = l
+        }
+    }
+    return maxLength
 }
 
 func TestLengthOfLongestSubstring(t *testing.T) {
