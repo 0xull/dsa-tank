@@ -1,22 +1,53 @@
 import numpy as np
+from numpy.typing import NDArray
 
-# the transition matrix A from the example
-A = np.array([
-    [0.7, 0.1, 0.0],
-    [0.2, 0.9, 0.2],
-    [0.1, 0.0, 0.8]
-])
+from markov.chain import MarkovChain
 
-# the initial state vector x_2004
-x_2004 = np.array([
-    [25],
-    [20],
-    [55]
-])
+def get_matrix_from_user(prompt: str) -> NDArray[np.float64]:
+    """Interactively prompts the user to enter a square matrix."""
+    print(f"\n--- {prompt} ---")
+    first_row_str = input("Enter the first row (comma-separated values): ")
+    first_row = [float(val) for val in first_row_str.split(',')]
+    n = len(first_row)
+    
+    matrix_data = [first_row]
+    print(f"Detected a {n}x{n} matrix. Please enter the {n-1} rows.")
+    
+    for i in range(1, n):
+        row_str = input(f"Enter row {i+1}: ")
+        row = [float(val) for val in row_str.split(',')]
+        if len(row) != n:
+            raise ValueError(f"Error: Row {i+1} has {len(row)} elements, but expected {n}.")
+        matrix_data.append(row)
+    return np.array(matrix_data)
 
-# the 2009 state
-x_2009 = A @ x_2004
+def get_vector_from_user(size: int):
+    """Interactively prompts the user for a column vector"""
+    print("\n--- Initial State Vector ---")
+    vec_str = input(f"Enter the {size} values for the initial state vector (comma-separated): ")
+    vec = [float(val) for val in vec_str.split(',')]
+    if len(vec) != size:
+        raise ValueError(f"Error: Vector has {len(vec)} elements, but expected {size}.")
+    return np.array(vec).reshape(size, 1)
+    
+def main():
+    try:
+        transition_matrix = get_matrix_from_user("Transition Matrix A")
+        initial_state = get_vector_from_user(transition_matrix.shape[0])
+        num_steps = int(input("\nEnter the number of steps to calculate: "))
+        
+        chain = MarkovChain(transition_matrix=transition_matrix, initial_state=initial_state)
+        chain.run(num_steps=num_steps)
+        
+        print("\n--- Calculation Result ---")
+        print("Initial state: ")
+        print(chain.history[0])
+        print(f"\nState after {num_steps} steps: ")
+        print(chain.current_state)
+    except ValueError as e:
+        print(f"\nInput Error: {e}")
+    except Exception as e:
+        print(f"\nAn unexpected error occurred: {e}")
 
-print("Transition Matrix A:\n", A)
-print("\nState Vector for 2004 (x_2004):\n", x_2004)
-print("\nCalculated State Vector for 2009 (x_2009):\n", x_2009)
+if __name__ == "__main__":
+    main()
