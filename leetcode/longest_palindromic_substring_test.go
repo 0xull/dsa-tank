@@ -6,10 +6,6 @@ import (
 )
 
 func longestPalindrome(s string) string {
-	if s == "" {
-		return s
-	}
-
 	longestSubstr := ""
 	for i := range len(s) {
 		substr := expand(s, i, i)
