@@ -78,3 +78,48 @@ class GaussianSolver:
             x[i] = (ref_matrix[rows, -1] - sum_ax) / pivot
         
         return x
+
+    def iterative_refinement(self, x: NDArray[np.float64], max_iterations: int = 5, tol: float = 1e-10) -> NDArray[np.float64]:
+        """
+        Improves solution accuracy using iterative refinement.
+        
+        Process:
+        1. Compute residual: r = b - Ax
+        2. Solve correction: A * delta_x = r
+        3. Update solution: x_new = x + delta_x
+        4. Repeat until residual is small enough or max iterations reached
+        
+        Args:
+            x: Initial solution from back_substitution
+            max_iterations: Maximum number of refinement iterations
+            tol: Convergence tolerance for residual norm
+            
+        Returns:
+            Refined solution vector
+        """
+        
+        x_refined = x.copy()
+        
+        for iteration in range(max_iterations):
+            residual = self.b - self.A @ x_refined
+            
+            # Check convergence
+            residual_norm = np.linalg.norm(residual)
+            print(f"  Iteration {iteration}: residual norm = {residual_norm:.2e}")
+            
+            if residual_norm < tol:
+                print(f"  Converged after {iteration} iterations")
+                break
+            
+            # Solve A * delta_x = residual for the correction
+            correction_solver = GaussianSolver(self.A, residual)
+            ref_matrix = correction_solver.eliminate(use_pivoting=True)
+            delta_x = correction_solver.back_substitution(ref_matrix)
+            
+            if isinstance(delta_x, str):
+                print(f"  Refinement failed: {delta_x}")
+                break
+            
+            x_refined = x_refined + delta_x
+        
+        return x_refined
