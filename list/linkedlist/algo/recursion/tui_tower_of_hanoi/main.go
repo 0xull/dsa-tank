@@ -6,6 +6,11 @@
 //
 // Note: `go run hanoi.go` compiles and executes in one step,
 // identical workflow to a scripted language.
+//
+// Currently, I'm taking the below classes in preparation for the internship (as well
+// as just gaining the knowledge):
+// 1. Introduction to RISC-V (LFD110)
+// 2. Porting Software to RISC-V (LFD114)
 
 package main
 
