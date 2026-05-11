@@ -9,8 +9,10 @@
 //
 // Currently, I'm taking the below classes in preparation for the internship (as well
 // as just gaining the knowledge):
-// 1. Introduction to RISC-V (LFD110)
-// 2. Porting Software to RISC-V (LFD114)
+// 1. Introduction to RISC-V (LFD110) — completed
+// 2. Porting Software to RISC-V (LFD114) — ongoing
+// 3. Foundations of RISC-V Assembly Programming (LFD117x)
+// 4. Daniel Mangum's blog series on RISC-V Bytes
 
 package main
 
