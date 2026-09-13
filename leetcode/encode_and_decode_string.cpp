@@ -16,12 +16,16 @@ public:
 
   std::vector<std::string> decode(std::string encoded) {
     int i = 0;
+    int substr_len = 0;
+    
     std::vector<std::string> output;
 
     while (i < encoded.size()) {
       int j = i;
-      while (encoded[j] != '#')
-        j++;
+      while (encoded[j] != '#') {
+          substr_len = substr_len * 10 + (encoded[j] - '0');
+          j++;
+      }
 
       int substr_len = std::stoi(encoded.substr(i, j - i));
       output.push_back(encoded.substr(j + 1, substr_len));
