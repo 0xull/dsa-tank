@@ -39,4 +39,4 @@ public:
       
       return result;
   }
-}
+};
