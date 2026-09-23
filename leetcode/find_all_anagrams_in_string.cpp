@@ -15,7 +15,7 @@ public:
       int matches = 0;
       
       for (char c : p) freq_p[c - 'a']++;
-      for (int i = 0; i < 26; ++i) if (p[i] == 0) matches++;
+      for (int i = 0; i < 26; ++i) if (freq_p[i] == 0) matches++;
 
       int j = 0; // tracks outgoing left character from the window slide;
       
@@ -32,6 +32,7 @@ public:
 
               if (freq_w[out_char] == freq_p[out_char]) matches++;
               else if (freq_w[out_char] == freq_p[out_char] - 1) matches--;
+              j++;
           }
 
           if (matches == 26) result.push_back(j);
